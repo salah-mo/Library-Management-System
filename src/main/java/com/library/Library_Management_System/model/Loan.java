@@ -9,18 +9,22 @@ import java.time.LocalDate;
 
 @Entity
 public class Loan {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
+    @NotNull
     private Book book;
 
     @ManyToOne
     @JoinColumn(name = "patron_id", nullable = false)
+    @NotNull
     private Patron patron;
 
+    @NotNull
     private LocalDate loanDate;
 
     private LocalDate returnDate;
