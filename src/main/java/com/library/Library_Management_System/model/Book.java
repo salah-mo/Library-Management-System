@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Book {
@@ -11,14 +13,22 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min = 1, max = 255)
     private String title;
 
+    @NotNull
+    @Size(min = 1, max = 255)
     private String author;
 
+    @NotNull
+    @Size(min = 10, max = 13)
     private String isbn;
 
+    @NotNull
     private Integer publishYear;
 
+    @NotNull
     private Integer quantity;
 
 
