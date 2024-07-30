@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.*;
 
 @Entity
 public class Patron {
@@ -16,7 +15,7 @@ public class Patron {
 
     private String email;
 
-    private int phoneNumber;
+    private Long phoneNumber;
 
     public Long getId() {
         return id;
@@ -42,11 +41,11 @@ public class Patron {
         this.email = email;
     }
 
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }

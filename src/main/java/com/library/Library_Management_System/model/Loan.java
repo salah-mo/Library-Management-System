@@ -2,14 +2,13 @@ package com.library.Library_Management_System.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
-import org.springframework.data.annotation.Id;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 
 @Entity
 public class Loan {
-    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -62,4 +61,13 @@ public class Loan {
     public void setLoanDate(LocalDate loanDate) {
         this.loanDate = loanDate;
     }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
+    }
+
 }
