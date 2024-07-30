@@ -5,6 +5,7 @@ import com.library.Library_Management_System.repository.PatronRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,10 +22,12 @@ public class PatronService {
         return patronRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Patron not found"));
     }
 
+    @Transactional
     public Patron createPatron(Patron patron) {
         return patronRepository.save(patron);
     }
 
+    @Transactional
     public Patron updatePatron(Long id, Patron patronDetails) {
         Patron patron = getPatronById(id);
         patron.setName(patronDetails.getName());
@@ -33,6 +36,7 @@ public class PatronService {
         return patronRepository.save(patron);
     }
 
+    @Transactional
     public void deletePatron(Long id) {
         Patron patron = getPatronById(id);
         patronRepository.delete(patron);

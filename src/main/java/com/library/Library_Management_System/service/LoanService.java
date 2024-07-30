@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import com.library.Library_Management_System.repository.LoanRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -23,6 +24,7 @@ public class LoanService {
     @Autowired
     private PatronRepository patronRepository;
 
+    @Transactional
     public Loan loanBook(Long bookId, Long patronId) {
         Book book = bookRepository.findBookById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
         Patron patron = patronRepository.findPatronById(patronId).orElseThrow(() -> new ResourceNotFoundException("Patron not found"));
@@ -34,6 +36,7 @@ public class LoanService {
         return loanRepository.save(loan);
     }
 
+    @Transactional
     public Loan returnBook(Long bookId, Long patronId) {
         Loan loan = loanRepository.findLoanByBookIdAndPatronId(bookId, patronId).orElseThrow(() -> new ResourceNotFoundException("Loan not found"));
         loan.setReturnDate(LocalDate.now());

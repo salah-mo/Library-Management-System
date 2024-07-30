@@ -5,6 +5,7 @@ import com.library.Library_Management_System.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -19,13 +20,15 @@ public class BookService {
     }
 
     public Book getBookById(Long id) {
-        return bookRepository.findBookById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+        return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
     }
 
+    @Transactional
     public Book createBook(Book book) {
         return bookRepository.save(book);
     }
 
+    @Transactional
     public Book updateBook(Long id, Book bookDetails) {
         Book book = getBookById(id);
         book.setTitle(bookDetails.getTitle());
@@ -36,6 +39,7 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    @Transactional
     public void deleteBook(Long id) {
         Book book = getBookById(id);
         bookRepository.delete(book);
