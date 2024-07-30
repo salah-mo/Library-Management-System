@@ -4,12 +4,12 @@ USE Library_Management_System;
 
 CREATE TABLE IF NOT EXISTS Book
 (
-    id               INT PRIMARY KEY AUTO_INCREMENT,
-    title            VARCHAR(255) NOT NULL,
-    author           VARCHAR(255) NOT NULL,
-    isbn             VARCHAR(255) NOT NULL UNIQUE,
-    publication_year INT          NOT NULL,
-    quantity         INT          NOT NULL CHECK (quantity >= 0)
+    id           INT PRIMARY KEY AUTO_INCREMENT,
+    title        VARCHAR(255) NOT NULL,
+    author       VARCHAR(255) NOT NULL,
+    isbn         VARCHAR(255) NOT NULL UNIQUE,
+    publish_year INT          NOT NULL,
+    quantity     INT          NOT NULL CHECK (quantity >= 0)
 );
 
 CREATE TABLE IF NOT EXISTS Patron
