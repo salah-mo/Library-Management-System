@@ -1,12 +1,12 @@
 package com.library.Library_Management_System.service;
 
+import com.library.Library_Management_System.exception.DuplicateIsbnException;
 import com.library.Library_Management_System.model.Book;
 import com.library.Library_Management_System.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 
@@ -25,6 +25,9 @@ public class BookService {
 
     @Transactional
     public Book createBook(Book book) {
+        if (bookRepository.existsByIsbn(book.getIsbn())) {
+            throw new DuplicateIsbnException("ISBN already exists");
+        }
         return bookRepository.save(book);
     }
 
