@@ -1,12 +1,12 @@
 package com.library.Library_Management_System.service;
 
+import com.library.Library_Management_System.exception.DuplicateIsbnException;
 import com.library.Library_Management_System.model.Book;
 import com.library.Library_Management_System.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 
@@ -25,18 +25,21 @@ public class BookService {
 
     @Transactional
     public Book createBook(Book book) {
+        if (bookRepository.existsByIsbn(book.getIsbn())) {
+            throw new DuplicateIsbnException("ISBN already exists");
+        }
         return bookRepository.save(book);
     }
 
     @Transactional
-    public Book updateBook(Long id, Book bookDetails) {
-        Book book = getBookById(id);
-        book.setTitle(bookDetails.getTitle());
-        book.setAuthor(bookDetails.getAuthor());
-        book.setIsbn(bookDetails.getIsbn());
-        book.setPublishYear(bookDetails.getPublishYear());
-        book.setQuantity(bookDetails.getQuantity());
-        return bookRepository.save(book);
+    public Book updateBook(Long id, Book updatedBook) {
+        Book existingBook = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+        existingBook.setTitle(updatedBook.getTitle());
+        existingBook.setAuthor(updatedBook.getAuthor());
+        existingBook.setIsbn(updatedBook.getIsbn());
+        existingBook.setPublishYear(updatedBook.getPublishYear());
+        existingBook.setQuantity(updatedBook.getQuantity());
+        return bookRepository.save(existingBook);
     }
 
     @Transactional
