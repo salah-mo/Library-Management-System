@@ -5,8 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -15,17 +14,15 @@ public class Patron {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(min = 1, max = 255)
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @NotNull
-    @Email
+    @Email(message = "Email should be valid")
     private String email;
 
-    @NotNull
-    @Pattern(regexp = "\\d{10,15}", message = "Phone number must be between 10 and 15 digits")
-    private Long phoneNumber;
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number is invalid")
+    private String phoneNumber;
+
 
     public Long getId() {
         return id;
@@ -51,11 +48,11 @@ public class Patron {
         this.email = email;
     }
 
-    public long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }
