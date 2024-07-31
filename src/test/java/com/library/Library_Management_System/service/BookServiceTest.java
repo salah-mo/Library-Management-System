@@ -14,10 +14,10 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class BookServiceTest {
+class BookServiceTest {
 
     @Mock
     private BookRepository bookRepository;
@@ -39,42 +39,44 @@ public class BookServiceTest {
     }
 
     @Test
-    public void testGetBookById() {
+    void testGetBookById() {
         when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
         Book found = bookService.getBookById(1L);
         assertEquals(book, found);
     }
 
     @Test
-    public void testGetBookByIdNotFound() {
+    void testGetBookByIdNotFound() {
         when(bookRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> bookService.getBookById(1L));
     }
 
     @Test
-    public void testCreateBook() {
+    void testCreateBook() {
         when(bookRepository.save(book)).thenReturn(book);
         Book created = bookService.createBook(book);
         assertEquals(book, created);
     }
 
     @Test
-    public void testUpdateBook() {
+    void testUpdateBook() {
         when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
         when(bookRepository.save(book)).thenReturn(book);
         Book updatedBook = bookService.updateBook(1L, book);
-        assertEquals(updatedBook, updatedBook);
+        assertEquals(book, updatedBook);
     }
 
     @Test
-    public void testUpdateBookNotFound() {
+    void testUpdateBookNotFound() {
         when(bookRepository.findById(1L)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> bookService.updateBook(1L, book));
     }
 
     @Test
-    public void testDeleteBook() {
+    void testDeleteBook() {
         when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+        doNothing().when(bookRepository).delete(book);
         bookService.deleteBook(1L);
+        verify(bookRepository, times(1)).delete(book);
     }
 }
