@@ -32,7 +32,7 @@ class PatronServiceTest {
         patron.setId(4L);
         patron.setName("Salah");
         patron.setEmail("salah.mo@gmail.com");
-        patron.setPhoneNumber(1234567890);
+        patron.setPhoneNumber("1234567890");
     }
 
     @Test
