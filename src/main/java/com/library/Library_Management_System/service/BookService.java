@@ -29,14 +29,14 @@ public class BookService {
     }
 
     @Transactional
-    public Book updateBook(Long id, Book bookDetails) {
-        Book book = getBookById(id);
-        book.setTitle(bookDetails.getTitle());
-        book.setAuthor(bookDetails.getAuthor());
-        book.setIsbn(bookDetails.getIsbn());
-        book.setPublishYear(bookDetails.getPublishYear());
-        book.setQuantity(bookDetails.getQuantity());
-        return bookRepository.save(book);
+    public Book updateBook(Long id, Book updatedBook) {
+        Book existingBook = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+        existingBook.setTitle(updatedBook.getTitle());
+        existingBook.setAuthor(updatedBook.getAuthor());
+        existingBook.setIsbn(updatedBook.getIsbn());
+        existingBook.setPublishYear(updatedBook.getPublishYear());
+        existingBook.setQuantity(updatedBook.getQuantity());
+        return bookRepository.save(existingBook);
     }
 
     @Transactional
